@@ -95,4 +95,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void TripleShot()
+    {
+      _isTripleShotActive = true;
+      StartCoroutine("TripleShotTimerRoutine");
+    }
+
+    public void SpeedUp()
+    {
+      isSpeedUpActive = true;
+      StartCoroutine("")
+    }
+
+    IEnumerator TripleShotTimerRoutine()
+    {
+      while (_isTripleShotActive == true)
+      {
+        yield return new WaitForSeconds(5.0f);
+        _isTripleShotActive = false;
+      }
+    }
 }
