@@ -1,0 +1,11 @@
+This is a basic 2D shooting game.
+
+The player plays as a space ship and enemy ships float down towards him.
+
+The player can collect power ups to change how he shoots.
+
+Stuff like that.
+
+Random ideas that can be changed and added and deleted by team members.
+
+Thoughts about mechanics or level ideas.
