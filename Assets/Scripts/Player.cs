@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
     public void SpeedUp()
     {
       isSpeedUpActive = true;
-      StartCoroutine("")
+      //StartCoroutine("")
     }
 
     IEnumerator TripleShotTimerRoutine()
