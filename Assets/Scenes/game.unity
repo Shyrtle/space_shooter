@@ -168,8 +168,10 @@ MonoBehaviour:
   _enemyPrefab: {fileID: 4539032883519944293, guid: 51bb571e4e0c8f04d82ddfc3450f0397,
     type: 3}
   _enemyContainer: {fileID: 1503800789}
-  _tripleShotPrefab: {fileID: 1938462479365609928, guid: adda0e1c98f0ff34f959857b02c7b850,
-    type: 3}
+  powerups:
+  - {fileID: 1938462479365609928, guid: adda0e1c98f0ff34f959857b02c7b850, type: 3}
+  - {fileID: 2694817676693155947, guid: c55ff7ad6607314458cefba81b5ca209, type: 3}
+  - {fileID: 0}
 --- !u!1 &364609043
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +405,7 @@ MonoBehaviour:
     type: 3}
   _lives: 3
   _isTripleShotActive: 0
+  _isSpeedUpActive: 0
 --- !u!212 &1712117530
 SpriteRenderer:
   m_ObjectHideFlags: 0

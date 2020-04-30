@@ -36,13 +36,17 @@ public class Powerup : MonoBehaviour
         Player player = other.transform.GetComponent<Player>();
         if (player != null)
         {
-          if (_powerupID == 0)
+          switch(_powerupID)
           {
-            player.TripleShot();
-          }
-          else if (_powerupID == 1)
-          {
-            player.SpeedUp();
+            case 0:
+              player.TripleShot();
+              break;
+            case 1:
+              player.SpeedUp();
+              break;
+            case 2:
+              Debug.Log("Shield Powerup Collected.");
+              break;
           }
 
         }

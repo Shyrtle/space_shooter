@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _playerSpeed = 3.5f;
+    private float _speedMultiplyer = 2;
     [SerializeField]
     private GameObject _laser = null;
     [SerializeField]
@@ -26,6 +27,9 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private bool _isTripleShotActive = false;
+
+    [SerializeField]
+    private bool _isSpeedUpActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -56,9 +60,10 @@ public class Player : MonoBehaviour
       float horizontalInput = Input.GetAxis("Horizontal");
       float verticalInput = Input.GetAxis("Vertical");
 
-      Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-      transform.Translate(direction * _playerSpeed *Time.deltaTime);
 
+      Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+
+      transform.Translate(direction * _playerSpeed * Time.deltaTime);
       transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0),0);
 
       if (transform.position.x > 11)
@@ -98,21 +103,29 @@ public class Player : MonoBehaviour
     public void TripleShot()
     {
       _isTripleShotActive = true;
-      StartCoroutine("TripleShotTimerRoutine");
+      StartCoroutine("PowerupTimerRoutine");
     }
 
     public void SpeedUp()
     {
-      isSpeedUpActive = true;
-      //StartCoroutine("")
+      _isSpeedUpActive = true;
+      _playerSpeed *= _speedMultiplyer;
+      StartCoroutine("PowerupTimerRoutine");
     }
 
-    IEnumerator TripleShotTimerRoutine()
+    IEnumerator PowerupTimerRoutine()
     {
       while (_isTripleShotActive == true)
       {
         yield return new WaitForSeconds(5.0f);
         _isTripleShotActive = false;
+      }
+
+      while (_isSpeedUpActive == true)
+      {
+        yield return new WaitForSeconds(6.0f);
+        _isSpeedUpActive = false;
+        _playerSpeed /= _speedMultiplyer;
       }
     }
 }
