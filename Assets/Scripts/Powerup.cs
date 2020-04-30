@@ -45,7 +45,7 @@ public class Powerup : MonoBehaviour
               player.SpeedUp();
               break;
             case 2:
-              Debug.Log("Shield Powerup Collected.");
+              player.Shield();
               break;
           }
 

@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleShot = null;
 
+    [SerializeField]
+    private GameObject _ShieldEnabled = null;
+
     private float _canFire = -1f;
 
     [SerializeField]
@@ -31,16 +34,30 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool _isSpeedUpActive = false;
 
+    [SerializeField]
+    private bool _isShieldActive = false;
+
+    [SerializeField]
+    public int _score = 0;
+
+    [SerializeField]
+    private UIManager _uiManager;
+
     // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
-
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         if (_spawnManager == null)
         {
           Debug.LogError("The Spawn Manager is null.");
         }
+        if (_uiManager == null)
+        {
+          Debug.LogError("The UI Manager is null.");
+        }
+        _ShieldEnabled.SetActive(false);
     }
 
     // Update is called once per frame
@@ -91,13 +108,23 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        _lives -= 1;
-
-        if (_lives < 1)
+        if (_isShieldActive == true)
         {
-          _spawnManager.OnPlayerDeath();
-          Destroy(this.gameObject);
+          _ShieldEnabled.SetActive(false);
+          _isShieldActive = false;
+          return;
         }
+        else
+        {
+          _lives -= 1;
+
+          if (_lives < 1)
+          {
+            _spawnManager.OnPlayerDeath();
+            Destroy(this.gameObject);
+          }
+        }
+
     }
 
     public void TripleShot()
@@ -110,6 +137,13 @@ public class Player : MonoBehaviour
     {
       _isSpeedUpActive = true;
       _playerSpeed *= _speedMultiplyer;
+      StartCoroutine("PowerupTimerRoutine");
+    }
+
+    public void Shield()
+    {
+      _isShieldActive = true;
+      _ShieldEnabled.SetActive(true);
       StartCoroutine("PowerupTimerRoutine");
     }
 
@@ -127,5 +161,18 @@ public class Player : MonoBehaviour
         _isSpeedUpActive = false;
         _playerSpeed /= _speedMultiplyer;
       }
+
+      while (_isShieldActive == true)
+      {
+        yield return new WaitForSeconds(8.0f);
+        _isShieldActive = false;
+        _ShieldEnabled.SetActive(false);
+      }
+    }
+
+    public void Score(int points)
+    {
+      _score += points;
+      _uiManager.Scoring(_score);
     }
 }
