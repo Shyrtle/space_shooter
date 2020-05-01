@@ -7,6 +7,10 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     private Text _scoreText = null;
+    [SerializeField]
+    private Image _livesImage = null;
+    [SerializeField]
+    private Sprite[] _liveSprites = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,5 +27,10 @@ public class UIManager : MonoBehaviour
     {
 
       _scoreText.text = "Score: " + playerScore.ToString();
+    }
+
+    public void UpdateLives(int currentLives)
+    {
+      _livesImage.sprite = _liveSprites[currentLives];
     }
 }
