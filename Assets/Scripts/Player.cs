@@ -18,6 +18,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _ShieldEnabled = null;
 
+    [SerializeField]
+    private GameObject _rightThrusterDamage = null;
+
+    [SerializeField]
+    private GameObject _leftThrusterDamage = null;
+
     private float _canFire = -1f;
 
     [SerializeField]
@@ -43,12 +49,28 @@ public class Player : MonoBehaviour
     [SerializeField]
     private UIManager _uiManager;
 
+    [SerializeField]
+    private AudioClip _laserSound = null;
+    private AudioSource _audioSource = null;
+
     // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        _audioSource = GetComponent<AudioSource>();
+
+        if (_audioSource == null)
+        {
+          Debug.LogError("The Audio Source on the player is null.");
+        }
+        else
+        {
+          _audioSource.clip = _laserSound;
+        }
+
         if (_spawnManager == null)
         {
           Debug.LogError("The Spawn Manager is null.");
@@ -58,6 +80,8 @@ public class Player : MonoBehaviour
           Debug.LogError("The UI Manager is null.");
         }
         _ShieldEnabled.SetActive(false);
+        _rightThrusterDamage.SetActive(false);
+        _leftThrusterDamage.SetActive(false);
     }
 
     // Update is called once per frame
@@ -104,6 +128,8 @@ public class Player : MonoBehaviour
           Instantiate(_laser, new Vector3(transform.position.x, transform.position.y + laserOffset, 0), Quaternion.identity);
       }
 
+      _audioSource.Play();
+
     }
 
     public void Damage()
@@ -117,7 +143,14 @@ public class Player : MonoBehaviour
         else
         {
           _lives -= 1;
-
+          if (_lives == 2)
+          {
+            _rightThrusterDamage.SetActive(true);
+          }
+          else if (_lives == 1)
+          {
+            _leftThrusterDamage.SetActive(true);
+          }
           _uiManager.UpdateLives(_lives);
 
           if (_lives < 1)
